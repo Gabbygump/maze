@@ -70,6 +70,12 @@ player_vx = 0
 player_vy = 0
 player_speed = 5
 
+# Make enemy
+enemy =[500, 150, 25, 25]
+enemy_vx = 0
+enemy_vy = 0
+enemy_speed = 6
+
 # make walls
 wall1 =  [0,640, 1200, 60]
 wall2 =  [0,0, 1200, 60]
@@ -144,12 +150,35 @@ while not done:
         else:
             player_vx = 0
 
+    if stage == PLAYING:
+        pressed = pygame.key.get_pressed()
+
+        up = pressed[pygame.K_e]
+        down = pressed[pygame.K_d]
+        left = pressed[pygame.K_s]
+        right = pressed[pygame.K_f]
+
+        if up:
+            enemy_vy = -enemy_speed
+        elif down:
+           enemy_vy = enemy_speed
+        else:
+            enemy_vy = 0
+            
+        if left:
+            enemy_vx = -enemy_speed
+        elif right:
+            enemy_vx = enemy_speed
+        else:
+            enemy_vx = 0
+
+
         
     # Game logic (Check for collisions, update points, etc.)
     if stage == PLAYING :
-        ''' move the player in horizontal direction '''
+        ''' move the player and enemy in horizontal direction '''
         player[0] += player_vx
-
+        enemy[0] += enemy_vx
         ''' resolve collisions horizontally '''
         for w in walls:
             if intersects.rect_rect(player, w):        
@@ -157,10 +186,17 @@ while not done:
                     player[0] = w[0] - player[2]
                 elif player_vx < 0:
                     player[0] = w[0] + w[2]
+            ''' resolve collisions horizontally '''
+        for w in walls:
+            if intersects.rect_rect(enemy, w):        
+                if enemy_vx > 0:
+                    enemy[0] = w[0] - enemy[2]
+                elif enemy_vx < 0:
+                    enemy[0] = w[0] + w[2]
 
         ''' move the player in vertical direction '''
         player[1] += player_vy
-        
+        enemy[1] += enemy_vy
         ''' resolve collisions vertically '''
         for w in walls:
             if intersects.rect_rect(player, w):                    
@@ -169,6 +205,13 @@ while not done:
                 if player_vy < 0:
                     player[1] = w[1] + w[3]
 
+        ''' resolve collisions vertically '''
+        for w in walls:
+            if intersects.rect_rect(enemy, w):                    
+                if enemy_vy > 0:
+                    enemy[1] = w[1] - enemy[3]
+                if enemy_vy < 0:
+                    enemy[1] = w[1] + w[3]
 
         ''' here is where you should resolve player collisions with screen edges '''
         if player[1] + player[3] < 0:
@@ -180,7 +223,19 @@ while not done:
                 player[0] = 0 - player[2]
         elif player[0] + player[2] < 0:
                 player[0] = WIDTH
+
+        ''' here is where you should resolve player collisions with screen edges '''
+        if enemy[1] + enemy[3] < 0:
+                enemy[1] = HEIGHT
+        elif enemy[1] > HEIGHT:
+                player[1] = 0 -player[3]
+
+        if enemy[0] > WIDTH:
+                enemy[0] = 0 - enemy[2]
+        elif enemy[0] + enemy[2] < 0:
+                enemy[0] = WIDTH
             
+        
 
         ''' get the coins '''
         coins = [c for c in coins if not intersects.rect_rect(player, c)]
@@ -193,6 +248,7 @@ while not done:
     screen.fill(PURPLE)
 
     pygame.draw.rect(screen, PINK, player)
+    pygame.draw.rect(screen, RED, enemy)
     
     for w in walls:
         pygame.draw.rect(screen, YELLOW, w)
@@ -209,8 +265,8 @@ while not done:
     elif stage == END:
         text1 = MY_FONT.render("Game Over", True, BLUE)
         text2 = MY_FONT.render("(Press SPACE to restart.)", True, BLUE)
-        screen.blit(text1, [450, 300])
-        screen.blit(text2, [430, 360])
+        screen.blit(text1, [490, 300])
+        screen.blit(text2, [400, 360])
 
 
 
