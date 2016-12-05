@@ -8,7 +8,7 @@ pygame.init()
 
 
 # Window
-WIDTH = 1350
+WIDTH = 1250
 HEIGHT = 700
 SIZE = (WIDTH, HEIGHT)
 TITLE = "Maze"
@@ -40,21 +40,21 @@ END = 2
 
 def setup():
     global coins, stage
-    coin1 = [680, 232, 25, 25]
-    coin2 = [950, 330, 25, 25]
-    coin3 = [200, 400, 25, 25]
-    coin4 = [320, 541, 25, 25]
-    coin5 = [535, 221, 25, 25]
-    coin6 = [575, 603, 25, 25]
-    coin7 = [552, 490, 25, 25]
-    coin8 = [1029, 598, 25, 25]
-    coin9 = [1107, 112, 25, 25]
-    coin10 = [288, 211, 25, 25]
-    coin11 = [97, 143, 25, 25]
-    coin12 = [97, 494, 25, 25]
-    coin13 = [1084, 324, 25, 25]
-    coin14 = [845, 460, 25, 25]
-    coin15 = [907, 602, 25, 25]
+    coin1 = [144, 131, 25, 25]
+    coin2 = [141, 329, 25, 25]
+    coin3 = [138, 467, 25, 25]
+    coin4 = [57, 607, 25, 25]
+    coin5 = [209, 641, 25, 25]
+    coin6 = [293, 454, 25, 25]
+    coin7 = [438, 298, 25, 25]
+    coin8 = [632, 302, 25, 25]
+    coin9 = [755, 549, 25, 25]
+    coin10 = [952, 415, 25, 25]
+    coin11 = [1144, 583, 25, 25]
+    coin12 = [1188, 650, 25, 25]
+    coin13 = [1078, 128, 25, 25]
+    coin14 = [973, 203, 25, 25]
+    coin15 = [947, 142, 25, 25]
     coin16 = [906, 75, 25, 25]
     coin17 = [386, 356, 25, 25]
     coins = [coin1, coin2, coin3,coin4,coin5,
@@ -81,8 +81,8 @@ wall1 =  [0,660, 1350, 40]
 wall2 =  [0,0, 1350, 40]
 wall3 =  [0, 0, 40, 300]
 wall4 = [0, 380, 40, 300]
-wall5 = [1310, 0, 40, 300]
-wall6 = [1310, 380, 40, 300]
+wall5 = [1210, 0, 40, 300]
+wall6 = [1210, 380, 40, 300]
 wall7 = [90,80, 100, 30]
 wall8 = [90, 80, 30, 100]
 wall9 = [90,240, 100, 30]
@@ -128,15 +128,15 @@ wall48 =[490,160, 100, 30]
 wall49 =[580,230, 100, 30]
 wall50 =[650, 90, 30, 30]
 wall51 =[740, 40, 30, 90]
-wall52 =[900, 90, 30, 170]
+wall52 =[900, 80, 30, 170]
 wall53 =[920,160, 100, 30]
-wall54 =[820,230, 100, 30]
+wall54 =[820,220, 290, 30]
 wall55 =[900, 370, 30, 170]
 wall56 =[920,430, 100, 30]
 wall57 =[820,510, 100, 30]
 wall58 =[1080, 220, 30, 170]
 wall59 =[1080,290, 100, 30]
-wall60 =[1010,370, 100, 30]
+wall60 =[920,370, 400, 30]
 wall61 =[670,160,160,30]
 wall62 =[740,160,30,100]
 wall63 =[670,420,160,30]
@@ -148,6 +148,19 @@ wall68 =[680,300,20,60]
 wall69 =[820,300,20,60]
 wall70 =[680,360,160,20]
 wall71 =[650,590,30,30]
+wall72 =[820,570,30,60]
+wall73 =[820,570,90,30]
+wall74 =[970,540,30,90]
+wall75 =[970,600,90,30]
+wall76 =[1100,540,30,90]
+wall77 =[1100,600,120,30]
+wall78 =[1100,540,80,30]
+wall79 =[970,70,30,60]
+wall80 =[970,100,90,30]
+wall81 =[1100,80,30,90]
+wall82 =[1100,140,120,30]
+wall83 =[1100,80,80,30]
+wall84 =[1090,460,30,30]
 walls = [wall1, wall2,wall3,wall4,wall5,wall6,wall7,
          wall8,wall9,wall10,wall11,wall12,wall13,wall14,
          wall15,wall16,wall17,wall18,wall19,wall20,wall21,
@@ -158,7 +171,8 @@ walls = [wall1, wall2,wall3,wall4,wall5,wall6,wall7,
          wall50,wall51,wall52,wall53,wall54,wall55,wall56,
          wall57,wall58,wall59,wall60,wall61,wall62,wall63,
          wall64,wall65,wall66,wall67,wall68,wall69,wall70,
-         wall71]
+         wall71,wall72,wall73,wall74,wall75,wall76,wall77,
+         wall78,wall79,wall80,wall81,wall82,wall83,wall84]
 
 
 
@@ -296,6 +310,10 @@ while not done:
 
         if len(coins) == 0:
             win = True
+            stage = END
+        '''get enemy'''
+        if intersects.rect_rect(player,enemy):
+            win = False
             stage = END
             
     # Drawing code (Describe the picture. It isn't actually drawn yet.)
