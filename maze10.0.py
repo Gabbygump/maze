@@ -11,7 +11,7 @@ pygame.init()
 WIDTH = 1250
 HEIGHT = 700
 SIZE = (WIDTH, HEIGHT)
-TITLE = "Maze"
+TITLE = "The Hungry Pink Dot"
 screen = pygame.display.set_mode(SIZE)
 pygame.display.set_caption(TITLE)
 
@@ -39,43 +39,53 @@ PLAYING = 1
 END = 2
 
 def setup():
-    global coins, stage
-    coin1 = [144, 131, 25, 25]
-    coin2 = [141, 329, 25, 25]
-    coin3 = [138, 467, 25, 25]
-    coin4 = [57, 607, 25, 25]
-    coin5 = [209, 641, 25, 25]
-    coin6 = [293, 454, 25, 25]
-    coin7 = [438, 298, 25, 25]
-    coin8 = [632, 302, 25, 25]
-    coin9 = [755, 549, 25, 25]
-    coin10 = [952, 415, 25, 25]
-    coin11 = [1144, 583, 25, 25]
-    coin12 = [1188, 650, 25, 25]
-    coin13 = [1078, 128, 25, 25]
-    coin14 = [973, 203, 25, 25]
-    coin15 = [947, 142, 25, 25]
-    coin16 = [906, 75, 25, 25]
+    global coins, stage,player,enemy,doors,topright_doors,collidables,switch,topright_switch,doors_open,topright_doors_open
+    coin1 = [58, 68, 25, 25]
+    coin2 = [58, 157, 25, 25]
+    coin3 = [58, 252, 25, 25]
+    coin4 = [58, 340, 25, 25]
+    coin5 = [60, 463, 25, 25]
+    coin6 = [299, 73, 25, 25]
+    coin7 = [313, 195, 25, 25]
+    coin8 = [514, 236, 25, 25]
+    coin9 = [570, 55, 25, 25]
+    coin10 = [713, 105, 25, 25]
+    coin11 = [843, 94, 25, 25]
+    coin12 = [904, 277, 25, 25]
+    coin13 = [902, 334, 25, 25]
+    coin14 = [999, 321, 25, 25]
+    coin15 = [1001, 273, 25, 25]
+    coin16 = [1142, 349, 25, 25]
     coin17 = [386, 356, 25, 25]
     coins = [coin1, coin2, coin3,coin4,coin5,
              coin6,coin7,coin8,coin9,coin10,coin11,coin12,coin13,coin14,
-             coin15,coin16,coin17]    
+             coin15,coin16,coin17]
+    #make doors
+    door1 = [740, 520, 30, 60]
+    door2 = [830, 420, 70, 30]
+    doors = [door1, door2]
+    #topright doors
+    topright_door1 = [0, 300, 40, 80]
+    topright_door2 = [770, 220,50,30]
+    topright_door3 = [740, 130, 30, 30]
+    topright_doors = [topright_door1, topright_door2 , topright_door3]
+    # make switch
+    switch = [130, 636, 25, 25]
+    topright_switch = [1148, 586,25, 25]
 
+    #make collidables
+    collidables = walls + doors + topright_doors
+    player =[748, 395, 25, 25]
+    enemy =[756, 334, 25, 25]
+    topright_doors_open = False
+    doors_open = False
     stage = START
 
 
-# Make a player
-player =  [748, 395, 25, 25]
-player_vx = 0
-player_vy = 0
-player_speed = 5
+# settings
 
-# Make enemy
-enemy =[756, 334, 25, 25]
-enemy_vx = 0
-enemy_vy = 0
+player_speed = 5   
 enemy_speed = 6
-
 # make walls
 wall1 =  [0,660, 1350, 40]
 wall2 =  [0,0, 1350, 40]
@@ -143,7 +153,7 @@ wall63 =[670,420,160,30]
 wall64 =[740,420,30,100]
 wall65 =[740, 580,30,90]
 wall66 =[680,300,60,20]
-wall67 =[780,300,60,20]
+wall67 =[784,300,40,20]
 wall68 =[680,300,20,60]
 wall69 =[820,300,20,60]
 wall70 =[680,360,160,20]
@@ -173,7 +183,6 @@ walls = [wall1, wall2,wall3,wall4,wall5,wall6,wall7,
          wall64,wall65,wall66,wall67,wall68,wall69,wall70,
          wall71,wall72,wall73,wall74,wall75,wall76,wall77,
          wall78,wall79,wall80,wall81,wall82,wall83,wall84]
-
 
 
 # Game loop
@@ -248,38 +257,38 @@ while not done:
         player[0] += player_vx
         enemy[0] += enemy_vx
         ''' resolve collisions horizontally '''
-        for w in walls:
-            if intersects.rect_rect(player, w):        
+        for c in collidables:
+            if intersects.rect_rect(player, c):        
                 if player_vx > 0:
-                    player[0] = w[0] - player[2]
+                    player[0] = c[0] - player[2]
                 elif player_vx < 0:
-                    player[0] = w[0] + w[2]
+                    player[0] = c[0] + c[2]
             ''' resolve collisions horizontally '''
-        for w in walls:
-            if intersects.rect_rect(enemy, w):        
+        for c in collidables:
+            if intersects.rect_rect(enemy, c):        
                 if enemy_vx > 0:
-                    enemy[0] = w[0] - enemy[2]
+                    enemy[0] = c[0] - enemy[2]
                 elif enemy_vx < 0:
-                    enemy[0] = w[0] + w[2]
+                    enemy[0] = c[0] + c[2]
 
         ''' move the player in vertical direction '''
         player[1] += player_vy
         enemy[1] += enemy_vy
         ''' resolve collisions vertically '''
-        for w in walls:
-            if intersects.rect_rect(player, w):                    
+        for c in collidables:
+            if intersects.rect_rect(player, c):                    
                 if player_vy > 0:
-                    player[1] = w[1] - player[3]
+                    player[1] = c[1] - player[3]
                 if player_vy < 0:
-                    player[1] = w[1] + w[3]
+                    player[1] = c[1] + c[3]
 
         ''' resolve collisions vertically '''
-        for w in walls:
-            if intersects.rect_rect(enemy, w):                    
+        for c in collidables:
+            if intersects.rect_rect(enemy, c):                    
                 if enemy_vy > 0:
-                    enemy[1] = w[1] - enemy[3]
+                    enemy[1] = c[1] - enemy[3]
                 if enemy_vy < 0:
-                    enemy[1] = w[1] + w[3]
+                    enemy[1] = c[1] + c[3]
 
         ''' here is where you should resolve player collisions with screen edges '''
         if player[1] + player[3] < 0:
@@ -311,6 +320,16 @@ while not done:
         if len(coins) == 0:
             win = True
             stage = END
+
+        ''' open door on switch contact '''
+        if intersects.rect_rect(player, switch):
+            doors_open = True
+            collidables = [c for c in collidables if c not in doors]
+
+        if intersects.rect_rect(player, topright_switch):
+            topright_doors_open = True
+            collidables = [c for c in collidables if c not in topright_doors]
+            
         '''get enemy'''
         if intersects.rect_rect(player,enemy):
             win = False
@@ -328,6 +347,15 @@ while not done:
     for c in coins:
         pygame.draw.rect(screen, GREEN, c)
 
+    pygame.draw.rect(screen, WHITE, switch)
+    pygame.draw.rect(screen, WHITE, topright_switch)
+    if not doors_open:
+        for d in doors:
+            pygame.draw.rect(screen, RED, d)
+            
+    if not topright_doors_open:
+        for t in topright_doors:
+            pygame.draw.rect(screen, BLUE, t)
     ''' begin/end game text '''
     if stage == START:
         text1 = MY_FONT.render("Hungry Pink Dot", True, BLUE)
@@ -339,6 +367,7 @@ while not done:
         text2 = MY_FONT.render("(Press SPACE to restart.)", True, BLUE)
         screen.blit(text1, [490, 300])
         screen.blit(text2, [400, 360])
+    
 
 
 
