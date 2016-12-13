@@ -1,4 +1,4 @@
-# maze
+# The Hungry Pink Dot Maze
 
 Welcome to my maze game!
 My maze is called The Hungry Pink Dot.
