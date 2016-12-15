@@ -1,5 +1,6 @@
 # The Hungry Pink Dot Maze
 
+##Introduction
 Welcome to my maze game!
 My maze is called The Hungry Pink Dot.
 It is based of the Webkinz game Hungry Hog. Its relates to that game becuase my "dot" represents the pig and the "coins" represent te candy.
