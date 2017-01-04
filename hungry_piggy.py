@@ -31,7 +31,7 @@ PINK = (255, 149, 213)
 BLUE = (22,64, 252)
 
 #images
-img= pygame.image.load('splashscreen.jpg')
+img= pygame.image.load('splashscreen2.jpg')
 playerimg= pygame.image.load('player.png')
 enemyimg= pygame.image.load ('enemy.png')
 coinimg= pygame.image.load ('coin.png')
@@ -83,7 +83,7 @@ def setup():
     coin34=[541,634,25,25]
     coin35=[535,499,25,25]
     coin36=[533,335,25,25]
-    coin37=[361,374,25,25]
+    coin37=[344,367,25,25]
     coin38=[342,274,25,25]
     coin39=[661,554,25,25]
     coin40=[660,636,25,25]
@@ -465,3 +465,4 @@ while not done:
 
 # Close window and quit
 pygame.quit()
+
